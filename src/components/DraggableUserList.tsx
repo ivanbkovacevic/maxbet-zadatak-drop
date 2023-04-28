@@ -27,6 +27,8 @@ import React, { useContext, useState } from "react";
 import users from "./users.json";
 import DragArea, { WholeUser } from "./DragArea";
 import { DraggableContext } from "../context/DraggableContext";
+import DragItem from "./DragItem";
+import UserItem from "./UserItem/UserItem";
 
 export const DraggableUserList = () => {
   const { state } = useContext(DraggableContext);
@@ -35,10 +37,15 @@ export const DraggableUserList = () => {
   const itemsParsed = JSON.parse(itemsString);
 
   const [exampleUsers, setExampleUsers] = useState<WholeUser[]>(itemsParsed);
-  console.log(users);
   return (
     <ul>
-      <DragArea items={exampleUsers}  onChangeHandle={() => setExampleUsers} />
+      <DragArea onChangeHandle={() => setExampleUsers}>
+	  {exampleUsers.map((user, i) => (
+            <DragItem key={user.id}>
+              <UserItem name={user.firstName} email={user.email} />
+            </DragItem>
+          ))}
+	  </DragArea>
     </ul>
   );
 };

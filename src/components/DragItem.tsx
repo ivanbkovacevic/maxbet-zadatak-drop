@@ -1,12 +1,10 @@
 import React from "react";
-import UserItem, { UserProps } from "./UserItem/UserItem";
 
-const DragItem:React.FC<UserProps> = ({ name, email }) => {
-  return (
-    <div>
-      <UserItem name={name} email={email} />
-    </div>
-  );
+interface DragItemProps {
+  children: React.ReactNode;
+}
+const DragItem: React.FC<DragItemProps> = ({ children }) => {
+  return <div  draggable="true" onDragStart={() =>console.log('drag started')}>{children}</div>;
 };
 
 export default DragItem;

@@ -1,5 +1,4 @@
 import React from "react";
-import DragItem from "./DragItem";
 
 export interface WholeUser {
   id: number;
@@ -13,30 +12,21 @@ export interface WholeUser {
 }
 
 interface DragAreaProps {
-  items: WholeUser[];
   onChangeHandle: () => void;
+  children: React.ReactNode;
 }
 
-const DragArea: React.FC<DragAreaProps> = ({ items, onChangeHandle }) => {
-  const generateDragItems = () => {
-    return items.map((item) => {
-      return (
-        <li 
-        draggable
-        >
-          <DragItem 
-          key={item.id} 
-          name={item.firstName} 
-          email={item.email} />
-        </li>
-      );
-    });
-  };
+const handleOnDragOver = (e:any) => {
+  console.log('dragover')
+e.preventDefault()
+};
 
-  return <div 
-  // onDrag={} 
-  // onDragOver={} 
-  onChange={onChangeHandle}>{generateDragItems()}</div>;
+const handleOnDrop = (e:any) => {
+e.preventDefault();
+};
+
+const DragArea: React.FC<DragAreaProps> = ({ onChangeHandle, children }) => {
+  return <div onDrop={() => console.log('droped')} onDragOver={handleOnDragOver}>{children}</div>;
 };
 
 export default DragArea;

@@ -1,6 +1,6 @@
 import React from "react";
 import { DraggableContextProvider } from "./context/DraggableContext";
-import { DraggableUserList } from "./components/DragDrop";
+import { DraggableUserList } from "./components/DraggableUserList";
 
 const App = () => {
   return (
