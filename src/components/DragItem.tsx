@@ -1,24 +1,19 @@
-import React from "react";
-import { WholeUser } from "./DragArea";
+import React, { useContext } from "react";
+import { DraggableContext } from "../context/DraggableContext";
 
 interface DragItemProps {
   children: React.ReactNode;
   idx: number;
 }
 const DragItem: React.FC<DragItemProps> = ({ children, idx }) => {
-  const handleOnDragStart = (e: React.DragEvent, ix: string) => {
-    e.dataTransfer.setData("userPickedIdx", ix);
-  };
-  const handleOnDragOver = (e: React.DragEvent, ix: string) => {
-    e.dataTransfer.setData("userGetOverIdx", ix);
-    console.log(ix)
-  };
+  const { handleOnDragStart, handleOnDragOver } = useContext(DraggableContext);
 
   return (
-    <div 
-    draggable="true" 
-    onDragStart={(e) => handleOnDragStart(e, `${idx}`)}
-    onDragOver={(e) => handleOnDragOver(e, `${idx}`)}>
+    <div
+      draggable="true"
+      onDragStart={(e) => handleOnDragStart(e, `${idx}`)}
+      onDragOver={(e) => handleOnDragOver(e, `${idx}`)}
+    >
       {children}
     </div>
   );

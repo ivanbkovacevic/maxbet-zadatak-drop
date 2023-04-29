@@ -22,34 +22,40 @@
 
 	Puno srece ;-)
 */
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
-import users from "./users.json";
-import DragArea, { WholeUser } from "./DragArea";
+import users from "../users.json";
+import DragArea, { WholeUser } from "./DragArea/DragArea";
 import { DraggableContext } from "../context/DraggableContext";
 import DragItem from "./DragItem";
 import UserItem from "./UserItem/UserItem";
 
 export const DraggableUserList = () => {
-  const { state } = useContext(DraggableContext);
+  const {
+    state: { userGetOverIdx, userPickedIdx, itemDroped },
+  } = useContext(DraggableContext);
   // Example
   const itemsString = JSON.stringify(users);
   const itemsParsed = JSON.parse(itemsString);
 
   const [exampleUsers, setExampleUsers] = useState<WholeUser[]>(itemsParsed);
 
-  const changeOrder = (userPickedIdx: string, userGetOverIdx: string) => {
+  useEffect(() => {
     const newUsersList = [...exampleUsers];
-    const userPickedIdxNum = parseInt(userPickedIdx); 
-    const userGetOverIdxNum = parseInt(userGetOverIdx); 
-    [newUsersList[userPickedIdxNum], newUsersList[userGetOverIdxNum]] = [newUsersList[userGetOverIdxNum], newUsersList[userPickedIdxNum]];
-    console.log({newUsersList})
+    const userPickedIdxNum = parseInt(userPickedIdx);
+    const userGetOverIdxNum = parseInt(userGetOverIdx);
+    console.log("USERPICK", userPickedIdx, "GETOVER", userGetOverIdx);
+    [newUsersList[userPickedIdxNum], newUsersList[userGetOverIdxNum]] = [
+      newUsersList[userGetOverIdxNum],
+      newUsersList[userPickedIdxNum],
+    ];
+    console.log({ newUsersList });
     setExampleUsers([...newUsersList]);
-  };
+  }, [itemDroped]);
 
   return (
     <ul>
-      <DragArea onChangeHandle={changeOrder}>
+      <DragArea>
         {exampleUsers.map((user, i) => (
           <DragItem key={user.id} idx={i}>
             <UserItem name={user.firstName} email={user.email} />

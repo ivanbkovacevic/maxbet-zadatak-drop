@@ -6,8 +6,8 @@ export type UserProps = {
 
 const UserItem = ({ name, email }: UserProps) => {
   return (
-    <div  draggable="true" className={style.wrapper}>
-      <span>{name}ddddddddddddddd</span>
+    <div className={style.wrapper}>
+      <span>{name}</span>
       <span>{email}</span>
     </div>
   );

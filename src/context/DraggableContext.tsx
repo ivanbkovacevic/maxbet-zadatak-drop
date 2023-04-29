@@ -1,39 +1,66 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 interface DraggableContextState {
-  scrollFromTop: number;
+  userPickedIdx: string;
+  userGetOverIdx: string;
+  itemDroped: boolean;
 }
 
 interface DraggableContextStateProps {
   state: DraggableContextState;
+  handleOnDragStart: (e: React.DragEvent, idx: string) => void;
+  handleOnDragOver: (e: React.DragEvent, idx: string) => void;
+  handleOnDragDrop: (e: React.DragEvent) => void;
 }
 
 const DraggableContext = React.createContext<DraggableContextStateProps>({
-  state: { scrollFromTop: 0 },
+  state: { userPickedIdx: "", userGetOverIdx: "", itemDroped: false },
+  handleOnDragStart: () => {},
+  handleOnDragOver: () => {},
+  handleOnDragDrop: () => {},
 });
 
 function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
   const [state, setState] = React.useState<DraggableContextState>({
-    scrollFromTop: 111,
+    userPickedIdx: "",
+    userGetOverIdx: "",
+    itemDroped: false,
   });
 
-  const handleScroll = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    setState((prevState) => ({ ...prevState, scrollFromTop: scrollTop }));
+  const handleOnDragStart = (e: React.DragEvent, idx: string) => {
+    console.log("dragstart", idx);
+    e.dataTransfer.setData("userPickedIdx", idx);
+    };
+
+  const handleOnDragOver = (e: React.DragEvent, idx: string) => {
+    console.log("dragover", idx);
+
+    setState((prevState) => ({
+      ...prevState,
+      userGetOverIdx: idx,
+    }));
+    e.preventDefault();
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const handleOnDragDrop = (e: React.DragEvent) => {
+    const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
+    const tempGetOverIdx = state.userGetOverIdx;
+    setState((prevState) => ({
+      ...prevState,
+      userPickedIdx: tempPickedIdx,
+      userGetOverIdx: tempGetOverIdx,
+      itemDroped: !state.itemDroped,
+    }));
+    console.log("DROP", tempPickedIdx, tempGetOverIdx);
+  };
 
   return (
     <DraggableContext.Provider
       value={{
         state,
+        handleOnDragStart,
+        handleOnDragOver,
+        handleOnDragDrop,
       }}
     >
       {props.children}
