@@ -55,8 +55,8 @@ export const DraggableUserList = () => {
     <ul>
       <DragArea>
         {exampleUsers.map((user, i) => (
-          <DragItem key={user.id} idx={i}>
-            <UserItem name={user.firstName} email={user.email} />
+          <DragItem key={user.id} idx={i} id={user.id}>
+            <UserItem name={user.firstName} email={user.email} id={user.id} />
           </DragItem>
         ))}
       </DragArea>

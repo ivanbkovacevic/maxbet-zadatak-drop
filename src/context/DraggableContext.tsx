@@ -4,18 +4,24 @@ interface DraggableContextState {
   userPickedIdx: string;
   userGetOverIdx: string;
   itemDroped: boolean;
+  pickedElementId: string;
 }
 
 interface DraggableContextStateProps {
   state: DraggableContextState;
-  handleOnDragStart: (e: React.DragEvent, idx: string) => void;
+  handleOnDragStart: (e: React.DragEvent, idx: string, id:string) => void;
   handleOnDragOver: (e: React.DragEvent, idx: string) => void;
   handleOnDragDrop: (e: React.DragEvent) => void;
   handleOnDragLeave: (e: React.DragEvent) => void;
 }
 
 const DraggableContext = React.createContext<DraggableContextStateProps>({
-  state: { userPickedIdx: "", userGetOverIdx: "", itemDroped: false },
+  state: {
+    userPickedIdx: "",
+    userGetOverIdx: "",
+    itemDroped: false,
+    pickedElementId: "",
+  },
   handleOnDragStart: () => {},
   handleOnDragOver: () => {},
   handleOnDragDrop: () => {},
@@ -27,16 +33,20 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     userPickedIdx: "",
     userGetOverIdx: "",
     itemDroped: false,
+    pickedElementId: "",
   });
 
-  const handleOnDragStart = (e: React.DragEvent, idx: string) => {
+  const handleOnDragStart = (e: React.DragEvent, idx: string, id: string) => {
     console.log("dragstart", idx);
     e.dataTransfer.setData("userPickedIdx", idx);
     (e.currentTarget as HTMLElement).classList.add("dragStart");
-    };
+    setState((prevState) => ({
+      ...prevState,
+      pickedElementId: id,
+    }));
+  };
 
   const handleOnDragOver = (e: React.DragEvent, idx: string) => {
-    console.log("dragover", idx);
     (e.currentTarget as HTMLElement).classList.add("dragOver");
 
     setState((prevState) => ({
@@ -46,7 +56,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     e.preventDefault();
   };
 
-  const handleOnDragLeave =(e: React.DragEvent) => {
+  const handleOnDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
     (e.currentTarget as HTMLElement).classList.remove("dragOver");
   };
@@ -61,11 +71,17 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
       itemDroped: !state.itemDroped,
     }));
 
-    const dragItems = document.querySelectorAll('.DragItem_dragItem__sd7Sj');
-    dragItems.forEach(item => {
-      item.classList.remove('dragStart', 'dragOver');
-    });
+    const elementPicked = document.getElementById(state.pickedElementId)
+    
+
+    setTimeout(() => {
+      const dragItems = document.querySelectorAll(".DragItem_dragItem__sd7Sj");
+      dragItems.forEach((item) => {
+        item.classList.remove("dragStart", "dragOver");
+      });
+    }, 1000);
   };
+
 
   return (
     <DraggableContext.Provider
