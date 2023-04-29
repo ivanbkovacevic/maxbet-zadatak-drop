@@ -8,15 +8,16 @@ interface DragItemProps {
   id:number;
 }
 const DragItem: React.FC<DragItemProps> = ({ children, idx, id }) => {
-  const { handleOnDragStart, handleOnDragOver, handleOnDragLeave } =
+  const { handleOnDragStart, handleOnDragOver, handleOnDragLeave,handleOnDragEnd } =
     useContext(DraggableContext);
     
   return (
     <div className={style.dragItem}
       draggable="true"
-      onDragStart={(e) => handleOnDragStart(e, `${idx}`, `${id}`)}
+      onDragStart={(e) => handleOnDragStart(e, `${idx}`)}
       onDragOver={(e) => handleOnDragOver(e, `${idx}`)}
       onDragLeave={(e) => handleOnDragLeave(e)}
+      onDragEnd={handleOnDragEnd}
     >
       {children}
     </div>
