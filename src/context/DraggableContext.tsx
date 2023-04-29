@@ -11,6 +11,7 @@ interface DraggableContextStateProps {
   handleOnDragStart: (e: React.DragEvent, idx: string) => void;
   handleOnDragOver: (e: React.DragEvent, idx: string) => void;
   handleOnDragDrop: (e: React.DragEvent) => void;
+  handleOnDragLeave: (e: React.DragEvent) => void;
 }
 
 const DraggableContext = React.createContext<DraggableContextStateProps>({
@@ -18,6 +19,7 @@ const DraggableContext = React.createContext<DraggableContextStateProps>({
   handleOnDragStart: () => {},
   handleOnDragOver: () => {},
   handleOnDragDrop: () => {},
+  handleOnDragLeave: () => {},
 });
 
 function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
@@ -30,16 +32,23 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
   const handleOnDragStart = (e: React.DragEvent, idx: string) => {
     console.log("dragstart", idx);
     e.dataTransfer.setData("userPickedIdx", idx);
+    (e.currentTarget as HTMLElement).classList.add("dragStart");
     };
 
   const handleOnDragOver = (e: React.DragEvent, idx: string) => {
     console.log("dragover", idx);
+    (e.currentTarget as HTMLElement).classList.add("dragOver");
 
     setState((prevState) => ({
       ...prevState,
       userGetOverIdx: idx,
     }));
     e.preventDefault();
+  };
+
+  const handleOnDragLeave =(e: React.DragEvent) => {
+    e.preventDefault();
+    (e.currentTarget as HTMLElement).classList.remove("dragOver");
   };
 
   const handleOnDragDrop = (e: React.DragEvent) => {
@@ -51,7 +60,11 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
       userGetOverIdx: tempGetOverIdx,
       itemDroped: !state.itemDroped,
     }));
-    console.log("DROP", tempPickedIdx, tempGetOverIdx);
+
+    const dragItems = document.querySelectorAll('.DragItem_dragItem__sd7Sj');
+    dragItems.forEach(item => {
+      item.classList.remove('dragStart', 'dragOver');
+    });
   };
 
   return (
@@ -61,6 +74,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
         handleOnDragStart,
         handleOnDragOver,
         handleOnDragDrop,
+        handleOnDragLeave,
       }}
     >
       {props.children}

@@ -27,7 +27,7 @@ import React, { useContext, useState, useEffect } from "react";
 import users from "../users.json";
 import DragArea, { WholeUser } from "./DragArea/DragArea";
 import { DraggableContext } from "../context/DraggableContext";
-import DragItem from "./DragItem";
+import DragItem from "./DragItem/DragItem";
 import UserItem from "./UserItem/UserItem";
 
 export const DraggableUserList = () => {
