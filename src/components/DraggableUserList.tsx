@@ -44,12 +44,10 @@ export const DraggableUserList = () => {
     const newUsersList = [...exampleUsers];
     const userPickedIdxNum = parseInt(userPickedIdx);
     const userGetOverIdxNum = parseInt(userGetOverIdx);
-    console.log("USERPICK", userPickedIdx, "GETOVER", userGetOverIdx);
-    [newUsersList[userPickedIdxNum], newUsersList[userGetOverIdxNum]] = [
-      newUsersList[userGetOverIdxNum],
-      newUsersList[userPickedIdxNum],
-    ];
-    console.log({ newUsersList });
+
+    const [dragedElement] = newUsersList.splice(userPickedIdxNum, 1);
+    newUsersList.splice(userGetOverIdxNum, 0, dragedElement);
+
     setExampleUsers([...newUsersList]);
   }, [itemDroped]);
 
