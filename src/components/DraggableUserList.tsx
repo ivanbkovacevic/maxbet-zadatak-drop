@@ -37,15 +37,20 @@ export const DraggableUserList = () => {
   const itemsParsed = JSON.parse(itemsString);
 
   const [exampleUsers, setExampleUsers] = useState<WholeUser[]>(itemsParsed);
+
+  const changeOrder = (userPickedId: string) => {
+    setExampleUsers([...exampleUsers, userPicked]);
+  };
+
   return (
     <ul>
-      <DragArea onChangeHandle={() => setExampleUsers}>
-	  {exampleUsers.map((user, i) => (
-            <DragItem key={user.id}>
-              <UserItem name={user.firstName} email={user.email} />
-            </DragItem>
-          ))}
-	  </DragArea>
+      <DragArea onChangeHandle={changeOrder}>
+        {exampleUsers.map((user, i) => (
+          <DragItem key={user.id} id={user.id}>
+            <UserItem name={user.firstName} email={user.email} />
+          </DragItem>
+        ))}
+      </DragArea>
     </ul>
   );
 };

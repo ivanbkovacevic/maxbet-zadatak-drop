@@ -12,21 +12,23 @@ export interface WholeUser {
 }
 
 interface DragAreaProps {
-  onChangeHandle: () => void;
+  onChangeHandle: (userPickedId:string) => void;
   children: React.ReactNode;
 }
 
-const handleOnDragOver = (e:any) => {
-  console.log('dragover')
-e.preventDefault()
-};
-
-const handleOnDrop = (e:any) => {
-e.preventDefault();
-};
-
 const DragArea: React.FC<DragAreaProps> = ({ onChangeHandle, children }) => {
-  return <div onDrop={() => console.log('droped')} onDragOver={handleOnDragOver}>{children}</div>;
+  
+  const handleOnDragOver = (e:any) => {
+    console.log('dragover')
+  e.preventDefault()
+  };
+  
+  const handleOnDrop = (e:React.DragEvent) => {
+    const userPickedId = e.dataTransfer.getData('userPickedId') as string;
+    onChangeHandle(userPickedId)
+  e.preventDefault();
+  };
+  return <div onDrop={handleOnDrop} onDragOver={handleOnDragOver}>{children}</div>;
 };
 
 export default DragArea;
