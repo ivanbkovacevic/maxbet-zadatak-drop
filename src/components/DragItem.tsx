@@ -3,15 +3,22 @@ import { WholeUser } from "./DragArea";
 
 interface DragItemProps {
   children: React.ReactNode;
-  id: number;
+  idx: number;
 }
-const DragItem: React.FC<DragItemProps> = ({ children, id }) => {
-  const handleOnDragStart = (e: React.DragEvent, id: string) => {
-    e.dataTransfer.setData("userPickedId", id);
+const DragItem: React.FC<DragItemProps> = ({ children, idx }) => {
+  const handleOnDragStart = (e: React.DragEvent, ix: string) => {
+    e.dataTransfer.setData("userPickedIdx", ix);
+  };
+  const handleOnDragOver = (e: React.DragEvent, ix: string) => {
+    e.dataTransfer.setData("userGetOverIdx", ix);
+    console.log(ix)
   };
 
   return (
-    <div draggable="true" onDragStart={(e) => handleOnDragStart(e, `${id}`)}>
+    <div 
+    draggable="true" 
+    onDragStart={(e) => handleOnDragStart(e, `${idx}`)}
+    onDragOver={(e) => handleOnDragOver(e, `${idx}`)}>
       {children}
     </div>
   );

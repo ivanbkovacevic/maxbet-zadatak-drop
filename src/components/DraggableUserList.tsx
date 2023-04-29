@@ -38,15 +38,20 @@ export const DraggableUserList = () => {
 
   const [exampleUsers, setExampleUsers] = useState<WholeUser[]>(itemsParsed);
 
-  const changeOrder = (userPickedId: string) => {
-    setExampleUsers([...exampleUsers, userPicked]);
+  const changeOrder = (userPickedIdx: string, userGetOverIdx: string) => {
+    const newUsersList = [...exampleUsers];
+    const userPickedIdxNum = parseInt(userPickedIdx); 
+    const userGetOverIdxNum = parseInt(userGetOverIdx); 
+    [newUsersList[userPickedIdxNum], newUsersList[userGetOverIdxNum]] = [newUsersList[userGetOverIdxNum], newUsersList[userPickedIdxNum]];
+    console.log({newUsersList})
+    setExampleUsers([...newUsersList]);
   };
 
   return (
     <ul>
       <DragArea onChangeHandle={changeOrder}>
         {exampleUsers.map((user, i) => (
-          <DragItem key={user.id} id={user.id}>
+          <DragItem key={user.id} idx={i}>
             <UserItem name={user.firstName} email={user.email} />
           </DragItem>
         ))}
