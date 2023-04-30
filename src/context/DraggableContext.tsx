@@ -50,7 +50,6 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
   });
 
   const handleOnDragStart = (e: React.DragEvent, idx: string, id: string) => {
-    console.log("dragstart", idx, id);
     e.dataTransfer.setData("userPickedIdx", idx);
     e.dataTransfer.setData("userPickedId", id);
     (e.currentTarget as HTMLElement).classList.add("dragStart");
@@ -71,14 +70,22 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     (e.currentTarget as HTMLElement).classList.remove("dragOver");
   };
 
+  const handleUsersList = (list: WholeUser[]) => {
+    console.log({list})
+    setState((prevState) => ({
+      ...prevState,
+      usersList: list,
+    }));
+  };
+
   const handleOnDragDrop = (e: React.DragEvent) => {
     const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
     const pickedId = e.dataTransfer.getData("userPickedId") as string;
     const tempGetOverIdx = state.userGetOverIdx;
 
     const newDropedItem = state.usersList.find((item) => item.id === parseInt(pickedId)) ?? {} as WholeUser;
-    console.log(newDropedItem)
-    console.log(state.newDropsList, ' contet')
+    console.log(state.usersList, ' DROPED')
+
     setState((prevState) => ({
       ...prevState,
       userPickedIdx: tempPickedIdx,
@@ -86,14 +93,10 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
       itemDroped: !state.itemDroped,
       newDropsList: [...state.newDropsList, newDropedItem]
     }));
+
   };
 
-  const handleUsersList = (list: WholeUser[]) => {
-    setState((prevState) => ({
-      ...prevState,
-      usersList: [...list],
-    }));
-  };
+
 
   const handleOnDragEnd = (e: React.DragEvent) => {
     setTimeout(() => {

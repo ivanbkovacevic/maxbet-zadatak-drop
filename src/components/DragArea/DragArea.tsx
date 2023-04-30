@@ -22,18 +22,16 @@ interface DragAreaProps {
 
 const DragArea: React.FC<DragAreaProps> = ({ list }) => {
   const { handleOnDragDrop } = useContext(DraggableContext);
-  const [listArr, setListArr] = useState<WholeUser[]>([]);
+
   const generateItems = () => {
-    const items = listArr.map((user, i) => (
+    const items = list.map((user, i) => (
       <DragItem key={user.id} idx={i} id={user.id}>
         <UserItem name={user.firstName} email={user.email} id={user.id} />
       </DragItem>
     ));
     return items;
   };
-  useEffect(() => {
-    setListArr([...listArr]);
-  }, [list]);
+
 
   return (
     <div
