@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { DraggableContext } from "../../context/DraggableContext";
-
 import DragItem from "../DragItem/DragItem";
 import UserItem from "../UserItem/UserItem";
 import style from "./DragArea.module.scss";
-import { RemoveZone } from "../RemoveZone/RemoveZone";
 
 export interface WholeUser {
   id: number;

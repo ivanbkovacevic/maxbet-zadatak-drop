@@ -6,7 +6,7 @@ import style from "./DropableUserList.module.scss";
 
 export const DropableUserList = () => {
   const {
-    state: { userPickedId, usersList, itemDroped,  newDropsList },
+    state: { userPickedId, usersList, itemDroped, newDropsList },
     handleNewDropsList,
   } = useContext(DraggableContext);
 
@@ -29,17 +29,15 @@ export const DropableUserList = () => {
       return;
     }
     setDuplicat(true);
-    console.log('effet')
   }, [itemDroped]);
 
   return (
     <div className={style.wrapper}>
       <h2>Dropable List</h2>
       <div className={style.listWrapper}>
-
-      <ul>
-        <DragArea list={newDropsList} isDuplicated={duplicat} flag="drop" />
-      </ul>
+        <ul>
+          <DragArea list={newDropsList} isDuplicated={duplicat} flag="drop" />
+        </ul>
       </div>
     </div>
   );

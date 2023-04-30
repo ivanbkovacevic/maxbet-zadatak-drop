@@ -2,7 +2,7 @@ import style from "./UserItem.module.scss";
 export type UserProps = {
   name: string;
   email: string;
-  id:number;
+  id: number;
 };
 
 const UserItem = ({ name, email, id }: UserProps) => {

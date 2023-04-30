@@ -93,7 +93,6 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     }));
   };
 
-
   const handleOnDragDrop = (e: React.DragEvent, flag: string | undefined) => {
     const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
     const pickedId = e.dataTransfer.getData("userPickedId") as string;
@@ -110,7 +109,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
         ...prevState,
         itemDroped: !state.itemDroped,
       }));
-    }else  if (flag === "remove"){
+    } else if (flag === "remove") {
       setState((prevState) => ({
         ...prevState,
         itemRemoved: !state.itemRemoved,
