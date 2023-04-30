@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { DraggableContext } from "../../context/DraggableContext";
 
 import DragItem from "../DragItem/DragItem";
@@ -18,10 +18,11 @@ export interface WholeUser {
 
 interface DragAreaProps {
   list: WholeUser[];
-  isDuplicated?: boolean;
+  isDuplicated?: boolean | null;
+  flag?: 'drop' ;
 }
 
-const DragArea: React.FC<DragAreaProps> = ({ list, isDuplicated }) => {
+const DragArea: React.FC<DragAreaProps> = ({ list, isDuplicated, flag}) => {
   const { handleOnDragDrop } = useContext(DraggableContext);
 
   const generateItems = () => {
@@ -32,12 +33,11 @@ const DragArea: React.FC<DragAreaProps> = ({ list, isDuplicated }) => {
     ));
     return items;
   };
-console.log({isDuplicated})
 
   return (
     <div
       className={style.wrapper}
-      onDrop={(e) => handleOnDragDrop(e)}
+      onDrop={(e) => handleOnDragDrop(e,flag)}
       onDragOver={(e) => e.preventDefault()}
     >
       {isDuplicated && (<h3>No two users with same id is allowed</h3>)}

@@ -29,7 +29,7 @@ import { DraggableContext } from "../../context/DraggableContext";
 
 export const DraggableUserList = () => {
   const {
-    state: { userGetOverIdx, userPickedIdx, itemDroped, usersList },
+    state: { userGetOverIdx, userPickedIdx, itemSwaped, usersList },
     handleUsersList,
   } = useContext(DraggableContext);
 
@@ -41,7 +41,7 @@ export const DraggableUserList = () => {
     const [dragedElement] = newUsersList.splice(userPickedIdxNum, 1);
     newUsersList.splice(userGetOverIdxNum, 0, dragedElement);
     handleUsersList([...newUsersList]);
-  }, [itemDroped]);
+  }, [itemSwaped]);
 
   return (
     <ul>

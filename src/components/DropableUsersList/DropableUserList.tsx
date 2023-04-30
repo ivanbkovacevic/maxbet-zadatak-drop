@@ -9,15 +9,20 @@ export const DropableUserList = () => {
     handleNewDropsList,
   } = useContext(DraggableContext);
 
-  const [duplicat, setDuplicat] = useState<boolean>(false);
+  const [duplicat, setDuplicat] = useState<boolean | null>(null);
   useEffect(() => {
     const tempNewDropsList = [...newDropsList];
 
-    const newDropedItem =
-      usersList.find((item) => item.id === parseInt(userPickedId)) ??
-      ({} as WholeUser);
-    const isDuplicated = newDropsList.find((item) => item.id === newDropedItem.id);
-    if(!isDuplicated) {
+    const newDropedItem = usersList.find(
+      (item) => item.id === parseInt(userPickedId)
+    );
+    if (newDropedItem === undefined) {
+      return;
+    }
+    const isDuplicated = newDropsList.find(
+      (item) => item.id === newDropedItem.id
+    );
+    if (!isDuplicated) {
       handleNewDropsList([...tempNewDropsList, newDropedItem]);
       setDuplicat(false);
       return;
@@ -27,7 +32,7 @@ export const DropableUserList = () => {
 
   return (
     <ul>
-      <DragArea list={newDropsList} isDuplicated={duplicat} />
+      <DragArea list={newDropsList} isDuplicated={duplicat} flag="drop" />
     </ul>
   );
 };

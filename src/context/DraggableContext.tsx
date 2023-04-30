@@ -9,6 +9,7 @@ interface DraggableContextState {
   userPickedIdx: string;
   userPickedId: string;
   userGetOverIdx: string;
+  itemSwaped: boolean;
   itemDroped: boolean;
   newDropsList: WholeUser[];
   usersList: WholeUser[];
@@ -18,7 +19,7 @@ interface DraggableContextStateProps {
   state: DraggableContextState;
   handleOnDragStart: (e: React.DragEvent, idx: string, id: string) => void;
   handleOnDragOver: (e: React.DragEvent, idx: string) => void;
-  handleOnDragDrop: (e: React.DragEvent) => void;
+  handleOnDragDrop: (e: React.DragEvent, flag?: string) => void;
   handleOnDragLeave: (e: React.DragEvent) => void;
   handleOnDragEnd: (e: React.DragEvent) => void;
   handleUsersList: (list: WholeUser[]) => void;
@@ -30,6 +31,7 @@ const DraggableContext = React.createContext<DraggableContextStateProps>({
     userPickedIdx: "",
     userPickedId: "",
     userGetOverIdx: "",
+    itemSwaped: false,
     itemDroped: false,
     newDropsList: [],
     usersList: [...usersParsed],
@@ -48,6 +50,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     userPickedIdx: "",
     userPickedId: "",
     userGetOverIdx: "",
+    itemSwaped: false,
     itemDroped: false,
     newDropsList: [],
     usersList: [...usersParsed],
@@ -87,20 +90,24 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     }));
   };
 
-  const handleOnDragDrop = (e: React.DragEvent) => {
+  const handleOnDragDrop = (e: React.DragEvent, flag: string | undefined) => {
     const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
     const pickedId = e.dataTransfer.getData("userPickedId") as string;
     const tempGetOverIdx = state.userGetOverIdx;
-
+console.log({flag})
     setState((prevState) => ({
       ...prevState,
       userPickedIdx: tempPickedIdx,
       userPickedId: pickedId,
       userGetOverIdx: tempGetOverIdx,
-      itemDroped: !state.itemDroped,
+      itemSwaped: !state.itemSwaped,
     }));
-
-    console.log(state.newDropsList, " LISt DROPED");
+    if (flag === "drop") {
+      setState((prevState) => ({
+        ...prevState,
+        itemDroped: !state.itemDroped,
+      }));
+    }
   };
 
   const handleOnDragEnd = (e: React.DragEvent) => {
