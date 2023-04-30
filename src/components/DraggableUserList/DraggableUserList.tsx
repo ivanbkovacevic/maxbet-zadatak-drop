@@ -22,44 +22,31 @@
 
 	Puno srece ;-)
 */
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
-import users from "../users.json";
-import DragArea, { WholeUser } from "./DragArea/DragArea";
-import { DraggableContext } from "../context/DraggableContext";
-import DragItem from "./DragItem/DragItem";
-import UserItem from "./UserItem/UserItem";
+import DragArea from "../DragArea/DragArea";
+import { DraggableContext } from "../../context/DraggableContext";
 
 export const DraggableUserList = () => {
   const {
-    state: { userGetOverIdx, userPickedIdx, itemDroped },
+    state: { userGetOverIdx, userPickedIdx, itemDroped, usersList },
+    handleUsersList,
   } = useContext(DraggableContext);
-  // Example
-  const itemsString = JSON.stringify(users);
-  const itemsParsed = JSON.parse(itemsString);
-
-  const [exampleUsers, setExampleUsers] = useState<WholeUser[]>(itemsParsed);
 
   useEffect(() => {
-    const newUsersList = [...exampleUsers];
+    const newUsersList = [...usersList];
     const userPickedIdxNum = parseInt(userPickedIdx);
     const userGetOverIdxNum = parseInt(userGetOverIdx);
 
     const [dragedElement] = newUsersList.splice(userPickedIdxNum, 1);
     newUsersList.splice(userGetOverIdxNum, 0, dragedElement);
 
-    setExampleUsers([...newUsersList]);
+    handleUsersList([...newUsersList]);
   }, [itemDroped]);
 
   return (
     <ul>
-      <DragArea>
-        {exampleUsers.map((user, i) => (
-          <DragItem key={user.id} idx={i} id={user.id}>
-            <UserItem name={user.firstName} email={user.email} id={user.id} />
-          </DragItem>
-        ))}
-      </DragArea>
+      <DragArea list={usersList} />
     </ul>
   );
 };

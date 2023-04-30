@@ -1,18 +1,27 @@
 import React from "react";
+import { WholeUser } from "../components/DragArea/DragArea";
+import users from "../users.json";
+
+const usersString = JSON.stringify(users);
+const usersParsed = JSON.parse(usersString);
 
 interface DraggableContextState {
   userPickedIdx: string;
   userGetOverIdx: string;
   itemDroped: boolean;
+  newDropsList: WholeUser[];
+  usersList: WholeUser[];
 }
 
 interface DraggableContextStateProps {
   state: DraggableContextState;
-  handleOnDragStart: (e: React.DragEvent, idx: string) => void;
+  handleOnDragStart: (e: React.DragEvent, idx: string, id: string) => void;
   handleOnDragOver: (e: React.DragEvent, idx: string) => void;
   handleOnDragDrop: (e: React.DragEvent) => void;
   handleOnDragLeave: (e: React.DragEvent) => void;
   handleOnDragEnd: (e: React.DragEvent) => void;
+  handleUsersList: (list: WholeUser[]) => void;
+
 }
 
 const DraggableContext = React.createContext<DraggableContextStateProps>({
@@ -20,12 +29,15 @@ const DraggableContext = React.createContext<DraggableContextStateProps>({
     userPickedIdx: "",
     userGetOverIdx: "",
     itemDroped: false,
+    newDropsList: [],
+    usersList: [...usersParsed],
   },
   handleOnDragStart: () => {},
   handleOnDragOver: () => {},
   handleOnDragDrop: () => {},
   handleOnDragLeave: () => {},
   handleOnDragEnd: () => {},
+  handleUsersList: () => {},
 });
 
 function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
@@ -33,11 +45,14 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     userPickedIdx: "",
     userGetOverIdx: "",
     itemDroped: false,
+    newDropsList: [],
+    usersList: [...usersParsed],
   });
 
-  const handleOnDragStart = (e: React.DragEvent, idx: string) => {
-    console.log("dragstart", idx);
+  const handleOnDragStart = (e: React.DragEvent, idx: string, id: string) => {
+    console.log("dragstart", idx, id);
     e.dataTransfer.setData("userPickedIdx", idx);
+    e.dataTransfer.setData("userPickedId", id);
     (e.currentTarget as HTMLElement).classList.add("dragStart");
   };
 
@@ -58,25 +73,35 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
 
   const handleOnDragDrop = (e: React.DragEvent) => {
     const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
+    const tempPickedId = e.dataTransfer.getData("userPickedId") as string;
     const tempGetOverIdx = state.userGetOverIdx;
+
+    const newDropedItem = 
+    
     setState((prevState) => ({
       ...prevState,
       userPickedIdx: tempPickedIdx,
       userGetOverIdx: tempGetOverIdx,
       itemDroped: !state.itemDroped,
+      newDropsList: [...state.newDropsList],
     }));
-    
+  };
+
+  const handleUsersList = (list: WholeUser[]) => {
+    setState((prevState) => ({
+      ...prevState,
+      usersList: [...list],
+    }));
   };
 
   const handleOnDragEnd = (e: React.DragEvent) => {
-  setTimeout(() => {
+    setTimeout(() => {
       const dragItems = document.querySelectorAll(".DragItem_dragItem__sd7Sj");
       dragItems.forEach((item) => {
         item.classList.remove("dragStart", "dragOver");
       });
     }, 1000);
   };
-
 
   return (
     <DraggableContext.Provider
@@ -87,6 +112,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
         handleOnDragDrop,
         handleOnDragLeave,
         handleOnDragEnd,
+        handleUsersList,
       }}
     >
       {props.children}

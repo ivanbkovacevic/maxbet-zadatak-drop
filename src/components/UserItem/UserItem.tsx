@@ -8,7 +8,7 @@ export type UserProps = {
 const UserItem = ({ name, email, id }: UserProps) => {
   return (
     <div className={style.wrapper}>
-      <span>{id}</span>
+      <span>id:{id}</span>
       <span>{name}</span>
       <span>{email}</span>
     </div>

@@ -14,7 +14,7 @@ const DragItem: React.FC<DragItemProps> = ({ children, idx, id }) => {
   return (
     <div className={style.dragItem}
       draggable="true"
-      onDragStart={(e) => handleOnDragStart(e, `${idx}`)}
+      onDragStart={(e) => handleOnDragStart(e, `${idx}`, `${id}`)}
       onDragOver={(e) => handleOnDragOver(e, `${idx}`)}
       onDragLeave={(e) => handleOnDragLeave(e)}
       onDragEnd={handleOnDragEnd}
