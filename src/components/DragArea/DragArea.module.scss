@@ -1,11 +1,21 @@
 .wrapper {
-    padding: 2rem;
-    width: 40rem;
+  padding: 2rem;
+  width: 40rem;
+  min-height: 70vh;
+
+  h3 {
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .removeZone {
     min-height: 70vh;
-    
-    h3 {
-        color:white;
-        text-align: center;
-        margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h4 {
+      color: #e6b89c;
     }
+  }
 }

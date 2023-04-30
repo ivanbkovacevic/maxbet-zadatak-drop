@@ -1,16 +1,18 @@
 import React from "react";
 import { DraggableContextProvider } from "./context/DraggableContext";
-import { DraggableUserList } from "./components/DraggableUserList/DraggableUserList";
+import { SwapableUserList } from "./components/SwapableUserList/SwapableUserList";
 import { DropableUserList } from "./components/DropableUsersList/DropableUserList";
 import "./globals.scss";
 import style from "./App.module.scss";
+import { RemoveZone } from "./components/RemoveZone/RemoveZone";
 
 const App = () => {
   return (
     <div className={style.wrapper}>
       <DraggableContextProvider>
-        <DraggableUserList />
+        <SwapableUserList />
         <DropableUserList />
+        <RemoveZone />
       </DraggableContextProvider>
     </div>
   );

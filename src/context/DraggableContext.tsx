@@ -94,7 +94,6 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
     const pickedId = e.dataTransfer.getData("userPickedId") as string;
     const tempGetOverIdx = state.userGetOverIdx;
-console.log({flag})
     setState((prevState) => ({
       ...prevState,
       userPickedIdx: tempPickedIdx,

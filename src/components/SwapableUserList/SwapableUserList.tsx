@@ -25,9 +25,9 @@
 import React, { useContext, useEffect } from "react";
 import DragArea from "../DragArea/DragArea";
 import { DraggableContext } from "../../context/DraggableContext";
-import style from "./DraggableUserList.module.scss";
+import style from "./SwapableUserList.module.scss";
 
-export const DraggableUserList = () => {
+export const SwapableUserList = () => {
   const {
     state: { userGetOverIdx, userPickedIdx, itemSwaped, usersList },
     handleUsersList,
