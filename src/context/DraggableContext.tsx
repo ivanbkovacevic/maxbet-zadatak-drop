@@ -73,17 +73,18 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
 
   const handleOnDragDrop = (e: React.DragEvent) => {
     const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
-    const tempPickedId = e.dataTransfer.getData("userPickedId") as string;
+    const pickedId = e.dataTransfer.getData("userPickedId") as string;
     const tempGetOverIdx = state.userGetOverIdx;
 
-    const newDropedItem = 
-    
+    const newDropedItem = state.usersList.find((item) => item.id === parseInt(pickedId)) ?? {} as WholeUser;
+    console.log(newDropedItem)
+    console.log(state.newDropsList, ' contet')
     setState((prevState) => ({
       ...prevState,
       userPickedIdx: tempPickedIdx,
       userGetOverIdx: tempGetOverIdx,
       itemDroped: !state.itemDroped,
-      newDropsList: [...state.newDropsList],
+      newDropsList: [...state.newDropsList, newDropedItem]
     }));
   };
 
