@@ -1,0 +1,19 @@
+.wrapper {
+    margin-top: 5rem;
+    max-height: 70vh;
+    min-height: 70vh;
+  
+    h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      color:white;
+    }
+    .listWrapper {
+      height: 100%;
+      border: 1px solid #D8CFAF;
+
+      border-radius: 10px;
+      overflow-y: scroll;
+    }
+  }
+  

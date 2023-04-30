@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import DragArea, { WholeUser } from "../DragArea/DragArea";
+import DragArea from "../DragArea/DragArea";
 import { DraggableContext } from "../../context/DraggableContext";
+import style from "./DropableUserList.module.scss";
 
 export const DropableUserList = () => {
   const {
@@ -31,8 +32,14 @@ export const DropableUserList = () => {
   }, [itemDroped]);
 
   return (
-    <ul>
-      <DragArea list={newDropsList} isDuplicated={duplicat} flag="drop" />
-    </ul>
+    <div className={style.wrapper}>
+      <h2>Dropable List</h2>
+      <div className={style.listWrapper}>
+
+      <ul>
+        <DragArea list={newDropsList} isDuplicated={duplicat} flag="drop" />
+      </ul>
+      </div>
+    </div>
   );
 };

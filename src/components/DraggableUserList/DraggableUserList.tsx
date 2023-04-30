@@ -22,10 +22,10 @@
 
 	Puno srece ;-)
 */
-import React, { useContext, useEffect, useState } from "react";
-
+import React, { useContext, useEffect } from "react";
 import DragArea from "../DragArea/DragArea";
 import { DraggableContext } from "../../context/DraggableContext";
+import style from "./DraggableUserList.module.scss";
 
 export const DraggableUserList = () => {
   const {
@@ -44,8 +44,13 @@ export const DraggableUserList = () => {
   }, [itemSwaped]);
 
   return (
-    <ul>
-      <DragArea list={usersList} />
-    </ul>
+    <div className={style.wrapper}>
+      <h2>Dragable List</h2>
+      <div className={style.listWrapper}>
+        <ul>
+          <DragArea list={usersList} />
+        </ul>
+      </div>
+    </div>
   );
 };
