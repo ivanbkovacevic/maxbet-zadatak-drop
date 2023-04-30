@@ -20,7 +20,7 @@ export interface WholeUser {
 interface DragAreaProps {
   list?: WholeUser[];
   isDuplicated?: boolean | null;
-  flag?: "drop";
+  flag?: "drop" | "remove";
 }
 
 const DragArea: React.FC<DragAreaProps> = ({ list, isDuplicated, flag }) => {

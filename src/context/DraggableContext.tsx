@@ -11,6 +11,7 @@ interface DraggableContextState {
   userGetOverIdx: string;
   itemSwaped: boolean;
   itemDroped: boolean;
+  itemRemoved: boolean;
   newDropsList: WholeUser[];
   usersList: WholeUser[];
 }
@@ -33,6 +34,7 @@ const DraggableContext = React.createContext<DraggableContextStateProps>({
     userGetOverIdx: "",
     itemSwaped: false,
     itemDroped: false,
+    itemRemoved: false,
     newDropsList: [],
     usersList: [...usersParsed],
   },
@@ -52,6 +54,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     userGetOverIdx: "",
     itemSwaped: false,
     itemDroped: false,
+    itemRemoved: false,
     newDropsList: [],
     usersList: [...usersParsed],
   });
@@ -90,6 +93,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     }));
   };
 
+
   const handleOnDragDrop = (e: React.DragEvent, flag: string | undefined) => {
     const tempPickedIdx = e.dataTransfer.getData("userPickedIdx") as string;
     const pickedId = e.dataTransfer.getData("userPickedId") as string;
@@ -105,6 +109,11 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
       setState((prevState) => ({
         ...prevState,
         itemDroped: !state.itemDroped,
+      }));
+    }else  if (flag === "remove"){
+      setState((prevState) => ({
+        ...prevState,
+        itemRemoved: !state.itemRemoved,
       }));
     }
   };

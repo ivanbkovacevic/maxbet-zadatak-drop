@@ -45,7 +45,7 @@ export const SwapableUserList = () => {
 
   return (
     <div className={style.wrapper}>
-      <h2>Dragable List</h2>
+      <h2>Swapable List</h2>
       <div className={style.listWrapper}>
         <ul>
           <DragArea list={usersList} />

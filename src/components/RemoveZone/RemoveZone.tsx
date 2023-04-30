@@ -5,25 +5,24 @@ import style from "./RemoveZone.module.scss";
 
 export const RemoveZone = () => {
   const {
-    state: { userGetOverIdx, userPickedIdx, itemSwaped, usersList },
-    handleUsersList,
+    state: { userPickedId, newDropsList, itemRemoved },
+    handleNewDropsList,
   } = useContext(DraggableContext);
 
   useEffect(() => {
-    const newUsersList = [...usersList];
-    const userPickedIdxNum = parseInt(userPickedIdx);
-    const userGetOverIdxNum = parseInt(userGetOverIdx);
+    const tempNewDropsList = [...newDropsList];
 
-    const [dragedElement] = newUsersList.splice(userPickedIdxNum, 1);
-    newUsersList.splice(userGetOverIdxNum, 0, dragedElement);
-    handleUsersList([...newUsersList]);
-  }, [itemSwaped]);
+    const listAfterItemRemoved = tempNewDropsList.filter(
+      (item) => item.id !== parseInt(userPickedId)
+    );
+    handleNewDropsList([...listAfterItemRemoved]);
+  }, [itemRemoved]);
 
   return (
     <div className={style.wrapper}>
       <h2>Remove Items</h2>
       <div className={style.removeZoneWrapper}>
-        <DragArea />
+        <DragArea flag="remove" />
       </div>
     </div>
   );
