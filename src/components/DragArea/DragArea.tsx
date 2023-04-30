@@ -18,9 +18,10 @@ export interface WholeUser {
 
 interface DragAreaProps {
   list: WholeUser[];
+  isDuplicated?: boolean;
 }
 
-const DragArea: React.FC<DragAreaProps> = ({ list }) => {
+const DragArea: React.FC<DragAreaProps> = ({ list, isDuplicated }) => {
   const { handleOnDragDrop } = useContext(DraggableContext);
 
   const generateItems = () => {
@@ -31,7 +32,7 @@ const DragArea: React.FC<DragAreaProps> = ({ list }) => {
     ));
     return items;
   };
-
+console.log({isDuplicated})
 
   return (
     <div
@@ -39,6 +40,7 @@ const DragArea: React.FC<DragAreaProps> = ({ list }) => {
       onDrop={(e) => handleOnDragDrop(e)}
       onDragOver={(e) => e.preventDefault()}
     >
+      {isDuplicated && (<h3>No two users with same id is allowed</h3>)}
       {generateItems()}
     </div>
   );

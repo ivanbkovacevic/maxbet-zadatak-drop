@@ -7,6 +7,7 @@ const usersParsed = JSON.parse(usersString);
 
 interface DraggableContextState {
   userPickedIdx: string;
+  userPickedId: string;
   userGetOverIdx: string;
   itemDroped: boolean;
   newDropsList: WholeUser[];
@@ -21,12 +22,13 @@ interface DraggableContextStateProps {
   handleOnDragLeave: (e: React.DragEvent) => void;
   handleOnDragEnd: (e: React.DragEvent) => void;
   handleUsersList: (list: WholeUser[]) => void;
-
+  handleNewDropsList: (list: WholeUser[]) => void;
 }
 
 const DraggableContext = React.createContext<DraggableContextStateProps>({
   state: {
     userPickedIdx: "",
+    userPickedId: "",
     userGetOverIdx: "",
     itemDroped: false,
     newDropsList: [],
@@ -38,11 +40,13 @@ const DraggableContext = React.createContext<DraggableContextStateProps>({
   handleOnDragLeave: () => {},
   handleOnDragEnd: () => {},
   handleUsersList: () => {},
+  handleNewDropsList: () => {},
 });
 
 function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
   const [state, setState] = React.useState<DraggableContextState>({
     userPickedIdx: "",
+    userPickedId: "",
     userGetOverIdx: "",
     itemDroped: false,
     newDropsList: [],
@@ -71,10 +75,15 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
   };
 
   const handleUsersList = (list: WholeUser[]) => {
-    console.log({list})
     setState((prevState) => ({
       ...prevState,
       usersList: list,
+    }));
+  };
+  const handleNewDropsList = (list: WholeUser[]) => {
+    setState((prevState) => ({
+      ...prevState,
+      newDropsList: list,
     }));
   };
 
@@ -83,20 +92,16 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
     const pickedId = e.dataTransfer.getData("userPickedId") as string;
     const tempGetOverIdx = state.userGetOverIdx;
 
-    const newDropedItem = state.usersList.find((item) => item.id === parseInt(pickedId)) ?? {} as WholeUser;
-    console.log(state.usersList, ' DROPED')
-
     setState((prevState) => ({
       ...prevState,
       userPickedIdx: tempPickedIdx,
+      userPickedId: pickedId,
       userGetOverIdx: tempGetOverIdx,
       itemDroped: !state.itemDroped,
-      newDropsList: [...state.newDropsList, newDropedItem]
     }));
 
+    console.log(state.newDropsList, " LISt DROPED");
   };
-
-
 
   const handleOnDragEnd = (e: React.DragEvent) => {
     setTimeout(() => {
@@ -117,6 +122,7 @@ function DraggableContextProvider(props: React.PropsWithChildren<{}>) {
         handleOnDragLeave,
         handleOnDragEnd,
         handleUsersList,
+        handleNewDropsList,
       }}
     >
       {props.children}

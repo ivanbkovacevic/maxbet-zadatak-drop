@@ -40,7 +40,6 @@ export const DraggableUserList = () => {
 
     const [dragedElement] = newUsersList.splice(userPickedIdxNum, 1);
     newUsersList.splice(userGetOverIdxNum, 0, dragedElement);
-    console.log({ newUsersList });
     handleUsersList([...newUsersList]);
   }, [itemDroped]);
 
