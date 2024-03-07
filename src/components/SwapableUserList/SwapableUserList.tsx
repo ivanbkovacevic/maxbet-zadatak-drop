@@ -17,7 +17,7 @@ export const SwapableUserList = () => {
     const [dragedElement] = newUsersList.splice(userPickedIdxNum, 1);
     newUsersList.splice(userGetOverIdxNum, 0, dragedElement);
     handleUsersList([...newUsersList]);
-  }, [itemSwaped]);
+  }, [itemSwaped,handleUsersList,userGetOverIdx, userPickedIdx, usersList]);
 
   return (
     <div className={style.wrapper}>

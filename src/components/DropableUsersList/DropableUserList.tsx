@@ -29,7 +29,7 @@ export const DropableUserList = () => {
       return;
     }
     setDuplicat(true);
-  }, [itemDroped]);
+  }, [itemDroped, handleNewDropsList, newDropsList, userPickedId, usersList]);
 
   return (
     <div className={style.wrapper}>

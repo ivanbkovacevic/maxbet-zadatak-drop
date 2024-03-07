@@ -16,7 +16,7 @@ export const RemoveZone = () => {
       (item) => item.id !== parseInt(userPickedId)
     );
     handleNewDropsList([...listAfterItemRemoved]);
-  }, [itemRemoved]);
+  }, [itemRemoved, handleNewDropsList, newDropsList, userPickedId]);
 
   return (
     <div className={style.wrapper}>
