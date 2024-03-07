@@ -16,7 +16,8 @@ export const RemoveZone = () => {
       (item) => item.id !== parseInt(userPickedId)
     );
     handleNewDropsList([...listAfterItemRemoved]);
-  }, [itemRemoved, handleNewDropsList, newDropsList, userPickedId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemRemoved]);
 
   return (
     <div className={style.wrapper}>

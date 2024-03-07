@@ -17,7 +17,8 @@ export const SwapableUserList = () => {
     const [dragedElement] = newUsersList.splice(userPickedIdxNum, 1);
     newUsersList.splice(userGetOverIdxNum, 0, dragedElement);
     handleUsersList([...newUsersList]);
-  }, [itemSwaped,handleUsersList,userGetOverIdx, userPickedIdx, usersList]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemSwaped]);
 
   return (
     <div className={style.wrapper}>

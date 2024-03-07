@@ -29,7 +29,8 @@ export const DropableUserList = () => {
       return;
     }
     setDuplicat(true);
-  }, [itemDroped, handleNewDropsList, newDropsList, userPickedId, usersList]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemDroped]);
 
   return (
     <div className={style.wrapper}>
